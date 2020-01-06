@@ -39,8 +39,7 @@
 31. As a supervisor, I am supported when addressing staff issues
 32. Conflict in my work area is resolved effectively
 33. I believe assignments in my department are distributed fairly
-34. I believe exceptional job performance is recognized appropriately by managers/supervisors in my
-work unit
+34. I believe exceptional job performance is recognized appropriately by managers/supervisors in my work unit
 35. I believe poor job performance is dealt with effectively by managers/supervisors in my work unit
 36. As a supervisor, I have been given the training, tools, and resources to lead my work unit
 37. I feel safe and comfortable in my work unit

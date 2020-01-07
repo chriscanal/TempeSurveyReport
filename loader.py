@@ -23,7 +23,6 @@ session = Session()
 
 base.metadata.create_all(db)
 
-# Create
 tempe_survey = Survey(
     id=1,
     survey_name="Tempe Employee Satisfaction Survey",
@@ -59,14 +58,3 @@ for section_id, data in enumerate(sections.items()):
         question_id_counter += 1
         session.add(question_obj)
 session.commit()
-#
-# # Read
-# surveys = session.query(Survey)
-#
-# # Update
-# tempe_survey.survey_name = "Tempe,AZ Employee Satisfaction Survey"
-# session.commit()
-#
-# # Delete
-# session.delete(tempe_survey)
-# session.commit()

@@ -15,14 +15,16 @@ from database import (
 from question_data import sections, full_question_names, section_possible_answers
 from sqlalchemy.ext.declarative import declarative_base
 
-survey_2016 = "/Users/chris/Code/TempeSurveyReport/tempe_survey_data_2016.csv"
-df16 = get_clean_df(survey_2016)
-
+project_dir = os.environ["TEMPE_SURVEY_PROJECT_DIR"]
 user = os.environ["TEMPE_SURVEY_DB_USER"]
 password = os.environ["TEMPE_SURVEY_DB_PASS"]
 host = os.environ["TEMPE_SURVEY_DB_HOST"]
 port = os.environ["TEMPE_SURVEY_DB_PORT"]
 dbname = os.environ["TEMPE_SURVEY_DB_NAME"]
+
+survey_2016 = project_dir + "tempe_survey_data_2016.csv"
+df16 = get_clean_df(survey_2016)
+
 connection_string = "postgresql://%s:%s@%s:%s/%s" % (user, password, host, port, dbname)
 # connection_string = "sqlite:///:memory:"
 

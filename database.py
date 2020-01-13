@@ -63,6 +63,7 @@ class Answer(base):
 
 
 if __name__ == "__main__":
+    # The following code is a test to check for schema flaws
     db = create_engine("sqlite:///:memory:", echo=True)
     Session = sessionmaker(db)
     session = Session()

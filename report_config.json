@@ -1,6 +1,6 @@
 {
-    "data_file": "/Users/chris/Code/TempeSurveyReport/tempe_survey_data_2016.csv",
-    "full_questions_file": "/Users/chris/Code/TempeSurveyReport/full_questions_2016.txt",
+    "data_file": "tempe_survey_data_2016.csv",
+    "full_questions_file": "full_questions_2016.txt",
     "Questions": [
         "Q1",
         "Q55",

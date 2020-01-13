@@ -2,6 +2,14 @@
 ### Overview
 The city of Tempe, AZ has gathered survey data on employees. I’m going to load it into a postgres database and then analyze it using python, pandas, and sklearn. If I have time I will convert the pandas code to spark. The output of the project will be an automatically generated pdf based on the statistics of user selected questions.
 
+### How to generate a Report
+1. edit the report config selecting your desired questions
+2. from the terminal run `jupyter nbconvert --to html --execute report_template.ipynb`
+
+Your report is now located at report_template.html
+
+For an example report see https://github.com/chriscanal/TempeSurveyReport/blob/master/example_report.html
+
 ### Research Questions
 Reasons for attrition, can attrition rates correlate to survey results?
 Productivity, can it be measured and correlated to survey results?

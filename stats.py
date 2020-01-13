@@ -75,7 +75,7 @@ def get_top_response_cols(data, value=None, value2=None, n=3):
     num_responses = len(data)
     responses = []
     for col in data.keys():
-        responses.append([col, len(data[data[col] == value | data[col] == value2])])
+        responses.append([col, len(data[(data[col] == value) | (data[col] == value2)])])
     top_questions = sorted(responses, key=lambda x: x[1], reverse=True)[:n]
     return [
         [q, num, "%.2f%%" % (100 * int(num) / num_responses)]
@@ -86,7 +86,6 @@ def get_top_response_cols(data, value=None, value2=None, n=3):
 def print_dont_knows(data=None, n=3):
     print("MOST AMBIGUOUS QUESTIONS ACCORDING TO USERS")
     top_questions = get_top_response_cols(data, value=9, n=n)
-    pd.options.display.max_colwidth = 100
     df = pd.DataFrame(
         top_questions, columns=["Question", "Num Don't Knows", "Percent Don't Know"]
     )
@@ -94,9 +93,8 @@ def print_dont_knows(data=None, n=3):
 
 
 def print_n_strong_agrees(data=None, n=3):
-    print("MOST AMBIGUOUS QUESTIONS ACCORDING TO USERS")
+    print("QUESTIONS THAT USERS MOST STRONGLY AGREED")
     top_questions = get_top_response_cols(data, value=5, n=n)
-    pd.options.display.max_colwidth = 100
     df = pd.DataFrame(
         top_questions, columns=["Question", "Num Strong Agrees", "Percent Strong Agree"]
     )
@@ -104,34 +102,51 @@ def print_n_strong_agrees(data=None, n=3):
 
 
 def print_n_agrees(data=None, n=3):
-    print("MOST AMBIGUOUS QUESTIONS ACCORDING TO USERS")
+    print("QUESTIONS THAT USERS MOST 'STRONGLY AGREED' OR AGREED")
     top_questions = get_top_response_cols(data, value=5, value2=4, n=n)
-    pd.options.display.max_colwidth = 100
     df = pd.DataFrame(
-        top_questions, columns=["Question", "Num Don't Knows", "Percent Don't Know"]
+        top_questions,
+        columns=["Question", "Num Strong Agrees", "Percent 'Strong Agree' or Agree"],
     )
     display(df)
 
 
 def print_n_strong_disagrees(data=None, n=3):
-    print("MOST AMBIGUOUS QUESTIONS ACCORDING TO USERS")
+    print("QUESTIONS THAT USERS MOST STRONGLY DISAGREED")
     top_questions = get_top_response_cols(data, value=1, n=n)
-    pd.options.display.max_colwidth = 100
     df = pd.DataFrame(
-        top_questions, columns=["Question", "Num Don't Knows", "Percent Don't Know"]
+        top_questions,
+        columns=["Question", "Num Strong Disagrees", "Percent Strong Disagree",],
     )
     display(df)
 
 
 def print_n_disagrees(data=None, n=3):
-    print("MOST AMBIGUOUS QUESTIONS ACCORDING TO USERS")
+    print("QUESTIONS THAT USERS MOST 'STRONGLY DISAGREED' OR DISAGREED")
     top_questions = get_top_response_cols(data, value=1, value2=2, n=n)
-    pd.options.display.max_colwidth = 100
     df = pd.DataFrame(
-        top_questions, columns=["Question", "Num Don't Knows", "Percent Don't Know"]
+        top_questions,
+        columns=[
+            "Question",
+            "Num Strong Disagrees",
+            "Percent 'Strong Disagree' or Disagree",
+        ],
     )
     display(df)
 
 
 def print_n_most_correlated(data=None, n=3):
-    pass
+    cor = data.corr()
+    vals = {}
+    for k in cor.keys():
+        for j in cor.keys():
+            if k != j:
+                key = tuple(sorted([k, j]))
+                vals[key] = cor.loc[k, j]
+    top_questions = sorted(vals.items(), key=lambda x: abs(x[1]), reverse=True)[:n]
+    top_questions = [[q[0], q[1], val] for q, val in top_questions]
+    df = pd.DataFrame(
+        top_questions,
+        columns=["Question 1", "Question 2", "Pearson correlation coefficient"],
+    )
+    display(df)

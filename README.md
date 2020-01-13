@@ -8,7 +8,7 @@ The city of Tempe, AZ has gathered survey data on employees. I’m going to load
 
 Your report is now located at report_template.html
 
-For an example report see https://github.com/chriscanal/TempeSurveyReport/blob/master/example_report.html
+For an example report see https://htmlpreview.github.io/?https://github.com/chriscanal/TempeSurveyReport/blob/master/example_report.html
 
 ### Research Questions
 Reasons for attrition, can attrition rates correlate to survey results?

@@ -8,7 +8,7 @@ base = declarative_base()
 
 class Survey(base):
     __tablename__ = "surveys"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, unique=True)
     survey_name = Column(String(255))
     company = Column(String(255))
     year = Column(Integer)
@@ -19,7 +19,7 @@ class Survey(base):
 
 class Section(base):
     __tablename__ = "sections"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, unique=True)
     section_name = Column(String(255))
     survey_id = Column(Integer, ForeignKey("surveys.id"), primary_key=True)
     questions = relationship("Question", backref="section")
@@ -28,7 +28,7 @@ class Section(base):
 
 class Question(base):
     __tablename__ = "questions"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, unique=True)
     question_survey_number = Column(String(255))
     question_text = Column(String(255))
     survey_id = Column(Integer, ForeignKey("surveys.id"), primary_key=True)
@@ -38,26 +38,25 @@ class Question(base):
 
 class PossibleResponse(base):
     __tablename__ = "possible_responses"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, unique=True)
     possible_response_text = Column(String(255))
     possible_response_number = Column(Integer)
     section_id = Column(Integer, ForeignKey("sections.id"), primary_key=True)
-    answers = relationship("Answer", backref="possible_response")
+    answers = relationship("Answer", backref="response")
 
 
 class Responder(base):
     __tablename__ = "responders"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, unique=True)
     answers = relationship("Answer", backref="responder")
 
 
 class Answer(base):
     __tablename__ = "answers"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, unique=True)
     survey_id = Column(Integer, ForeignKey("surveys.id"), primary_key=True)
     responder_id = Column(Integer, ForeignKey("responders.id"), primary_key=True)
     question_id = Column(Integer, ForeignKey("questions.id"), primary_key=True)
-    section_id = Column(Integer, ForeignKey("sections.id"), primary_key=True)
     chosen_response_id = Column(
         Integer, ForeignKey("possible_responses.id"), primary_key=True
     )

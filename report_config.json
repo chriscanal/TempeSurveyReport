@@ -1,9 +1,10 @@
 {
     "data_file": "/Users/chris/Code/TempeSurveyReport/tempe_survey_data_2016.csv",
     "full_questions_file": "/Users/chris/Code/TempeSurveyReport/full_questions_2016.txt",
-    "Questions": ["Q1",
-        "Q2",
-        "Q3"
+    "Questions": [
+        "Q1",
+        "Q55",
+        "Q60"
     ],
     "Barchart": true,
     "Top N Dont Knows": 3,
@@ -11,5 +12,6 @@
     "Top N Agrees": 3,
     "Top N Strongly Disagrees": 3,
     "Top N Disagrees": 3,
-    "Top N Correlated": 3
+    "Top N Correlated": 3,
+    "Top N polarizing": 5
 }

@@ -9,4 +9,5 @@ from .stats import (
     print_n_strong_disagrees,
     print_n_disagrees,
     print_n_most_correlated,
+    print_n_most_polarizing,
 )

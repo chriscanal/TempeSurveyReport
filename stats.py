@@ -62,11 +62,12 @@ def print_stats(data=None, q_map=None, questions=None, bar_chart=True):
         df_stats["most common response"] = answer_map[df.value_counts().idxmax()]
         df_stats = pd.DataFrame(df_stats)
         display_side_by_side(df_stats, possible_responses)
-        counts = Counter(df)
-        items = [[plot_map[k], counts[k]] for k in [1, 2, 3, 4, 5, 9]]
-        plot_df = pd.DataFrame(items, columns=["response", "count"])
-        plot_df.plot.bar(x="response", y="count", rot=0)
-        plt.show()
+        if bar_chart:
+            counts = Counter(df)
+            items = [[plot_map[k], counts[k]] for k in [1, 2, 3, 4, 5, 9]]
+            plot_df = pd.DataFrame(items, columns=["response", "count"])
+            plot_df.plot.bar(x="response", y="count", rot=0)
+            plt.show()
 
 
 def get_top_response_cols(data, value=None, value2=None, n=3):
@@ -84,7 +85,6 @@ def get_top_response_cols(data, value=None, value2=None, n=3):
 
 
 def print_dont_knows(data=None, n=3):
-    print("MOST AMBIGUOUS QUESTIONS ACCORDING TO USERS")
     top_questions = get_top_response_cols(data, value=9, n=n)
     df = pd.DataFrame(
         top_questions, columns=["Question", "Num Don't Knows", "Percent Don't Know"]
@@ -93,7 +93,6 @@ def print_dont_knows(data=None, n=3):
 
 
 def print_n_strong_agrees(data=None, n=3):
-    print("QUESTIONS THAT USERS MOST STRONGLY AGREED")
     top_questions = get_top_response_cols(data, value=5, n=n)
     df = pd.DataFrame(
         top_questions, columns=["Question", "Num Strong Agrees", "Percent Strong Agree"]
@@ -102,7 +101,6 @@ def print_n_strong_agrees(data=None, n=3):
 
 
 def print_n_agrees(data=None, n=3):
-    print("QUESTIONS THAT USERS MOST 'STRONGLY AGREED' OR AGREED")
     top_questions = get_top_response_cols(data, value=5, value2=4, n=n)
     df = pd.DataFrame(
         top_questions,
@@ -112,7 +110,6 @@ def print_n_agrees(data=None, n=3):
 
 
 def print_n_strong_disagrees(data=None, n=3):
-    print("QUESTIONS THAT USERS MOST STRONGLY DISAGREED")
     top_questions = get_top_response_cols(data, value=1, n=n)
     df = pd.DataFrame(
         top_questions,
@@ -122,7 +119,6 @@ def print_n_strong_disagrees(data=None, n=3):
 
 
 def print_n_disagrees(data=None, n=3):
-    print("QUESTIONS THAT USERS MOST 'STRONGLY DISAGREED' OR DISAGREED")
     top_questions = get_top_response_cols(data, value=1, value2=2, n=n)
     df = pd.DataFrame(
         top_questions,
@@ -149,4 +145,35 @@ def print_n_most_correlated(data=None, n=3):
         top_questions,
         columns=["Question 1", "Question 2", "Pearson correlation coefficient"],
     )
+    display(df)
+
+
+def print_n_most_polarizing(data=None, n=5):
+    diffs = {}
+    strongs = {}
+    len_data = len(data)
+    for key in data.keys():
+        series = data[key]
+        series = series[series != 9]
+        vc = series.value_counts()
+        keys = sorted(vc.keys())
+        min_key = keys[0]
+        max_key = keys[-1]
+        diffs[key] = abs(vc[max_key] - vc[min_key])
+        strongs[key] = 1 - (
+            len(series[(series == min_key) | (series == max_key)]) / len_data
+        )
+    # Normalize
+    diff_max = max(diffs.items(), key=lambda x: x[1])[1]
+    diff_min = min(diffs.items(), key=lambda x: x[1])[1]
+    diffs = {k: (int(v) - diff_min) / (diff_max - diff_min) for k, v in diffs.items()}
+    strong_max = max(strongs.items(), key=lambda x: x[1])[1]
+    strong_min = min(strongs.items(), key=lambda x: x[1])[1]
+    strongs = {
+        k: (float(v) - strong_min) / (strong_max - strong_min)
+        for k, v in strongs.items()
+    }
+    combined = {k: strongs[k] + diffs[k] for k in data.keys()}
+    top_questions = sorted(combined.items(), key=lambda x: x[1])[:n]
+    df = pd.DataFrame(top_questions, columns=["Question", "Polarization Score"],)
     display(df)

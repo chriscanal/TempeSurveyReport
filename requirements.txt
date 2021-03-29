@@ -45,7 +45,7 @@ psycopg2==2.8.4
 ptyprocess==0.6.0
 PyAutoGUI==0.9.48
 PyGetWindow==0.0.8
-Pygments==2.5.2
+Pygments==2.7.4
 PyMsgBox==1.0.7
 pynput==1.5.0
 pyobjc==6.1
